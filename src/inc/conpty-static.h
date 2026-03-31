@@ -10,6 +10,7 @@
 #pragma once
 
 #include <consoleapi.h>
+#include <stdbool.h>
 
 #ifndef CONPTY_IMPEXP
 #define CONPTY_IMPEXP __declspec(dllimport)
