@@ -9,6 +9,8 @@
 #include <dwmapi.h>
 #include <TerminalThemeHelpers.h>
 #include <CoreWindow.h>
+#include <shellapi.h>  // 用于 DragAcceptFiles
+#include <user32.h>   // 用于 ChangeWindowMessageFilter
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
@@ -387,6 +389,9 @@ void IslandWindow::Initialize()
 
     _rootGrid = winrt::Windows::UI::Xaml::Controls::Grid();
     _source.Content(_rootGrid);
+
+    DragAcceptFiles(_window.get(), TRUE);
+    ChangeWindowMessageFilter(WM_DROPFILES, MSGFLT_ADD);
 
     // initialize the taskbar object
     if (auto taskbar = wil::CoCreateInstanceNoThrow<ITaskbarList3>(CLSID_TaskbarList))
