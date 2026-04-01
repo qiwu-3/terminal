@@ -9,6 +9,7 @@
 #include <dwmapi.h>
 #include <TerminalThemeHelpers.h>
 #include <CoreWindow.h>
+#include <shellapi.h> 
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
@@ -387,7 +388,9 @@ void IslandWindow::Initialize()
 
     _rootGrid = winrt::Windows::UI::Xaml::Controls::Grid();
     _source.Content(_rootGrid);
-
+    DragAcceptFiles(_window.get(), TRUE);
+    // cspell:ignore MSGFLT_ADD WM_DROPFILES
+    ChangeWindowMessageFilter(WM_DROPFILES, MSGFLT_ADD);
     // initialize the taskbar object
     if (auto taskbar = wil::CoCreateInstanceNoThrow<ITaskbarList3>(CLSID_TaskbarList))
     {
